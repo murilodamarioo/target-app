@@ -2,6 +2,7 @@
   "expo": {
     "name": "target-app",
     "slug": "target-app",
+    "scheme": "target-app",
     "version": "1.0.0",
     "android": {
       "package": "com.neonsoft.target",
@@ -14,6 +15,9 @@
     "ios": {
       "bundleIdentifier": "com.neonsoft.target",
       "icon": "./assets/ios-icon.png"
-    }
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
