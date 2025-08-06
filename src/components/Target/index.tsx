@@ -5,9 +5,9 @@ import { styles } from './styles'
 
 export type TargetProps = {
   id?: string
-  name: string,
+  name: string
   percentage: string
-  current: string,
+  current: string
   target: string
 }
 
