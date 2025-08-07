@@ -1,9 +1,10 @@
 import { View } from 'react-native'
-import { useLocalSearchParams } from 'expo-router'
+import { useLocalSearchParams, router } from 'expo-router'
 
 import { PageHeader } from '@/components/PageHeader'
 import { Progress } from '@/components/Progress'
 import { List } from '@/components/List'
+import { Button } from '@/components/Button'
 import { Transaction, TransactionProps } from '@/components/Transaction'
 
 import { TransactionTypes } from '@/utils/TransactionTypes'
@@ -22,7 +23,7 @@ const transactions: TransactionProps[] = [
     description: 'CDB de 110% do banco XPTO',
     type: TransactionTypes.Input
   },
-    {
+  {
     id: '2',
     value: 'R$ 1.000,00',
     date: '07/08/2025',
@@ -45,11 +46,17 @@ export default function InProgress() {
 
       <Progress data={details} />
 
-      <List 
-        title='Transações' 
+      <List
+        title='Transações'
         data={transactions}
-        renderItem={({item}) => <Transaction data={item} onRemove={() => {}}/>}
-        />
+        renderItem={({ item }) => <Transaction data={item} onRemove={() => { }} />}
+        emptyMessage='Nenhuma transação. Toque em uma nova transação guardar seu dinheiro.'
+      />
+
+      <Button
+        title='Nova transação'
+        onPress={() => router.navigate(`/transaction/${params.id}`)}
+      />
     </View>
   )
 }
