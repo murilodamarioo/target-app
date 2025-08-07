@@ -17,7 +17,7 @@ export default function Target() {
       <View style={{ marginTop: 32, gap: 24 }}>
         <Input label='Nome da meta' placeholder='Ex: Viagem para Europa' />
 
-        <CurrencyInput label='Valor alvo' value={12435.75} />
+        <CurrencyInput label='Valor alvo (R$)' value={12435.75} />
 
         <Button title='Salvar' />
       </View>
