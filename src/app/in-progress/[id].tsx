@@ -3,12 +3,32 @@ import { useLocalSearchParams } from 'expo-router'
 
 import { PageHeader } from '@/components/PageHeader'
 import { Progress } from '@/components/Progress'
+import { List } from '@/components/List'
+import { Transaction, TransactionProps } from '@/components/Transaction'
+
+import { TransactionTypes } from '@/utils/TransactionTypes'
 
 const details = {
   current: 'R$ 1.000,00',
   target: 'R$ 2.000,00',
   percentage: 50
 }
+
+const transactions: TransactionProps[] = [
+  {
+    id: '1',
+    value: 'R$ 2.000,00',
+    date: '06/08/2025',
+    description: 'CDB de 110% do banco XPTO',
+    type: TransactionTypes.Input
+  },
+    {
+    id: '2',
+    value: 'R$ 1.000,00',
+    date: '07/08/2025',
+    type: TransactionTypes.Output
+  }
+]
 
 export default function InProgress() {
   const params = useLocalSearchParams<{ id: string }>()
@@ -24,6 +44,12 @@ export default function InProgress() {
       />
 
       <Progress data={details} />
+
+      <List 
+        title='Transações' 
+        data={transactions}
+        renderItem={({item}) => <Transaction data={item} onRemove={() => {}}/>}
+        />
     </View>
   )
 }
