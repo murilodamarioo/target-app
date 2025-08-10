@@ -1,5 +1,8 @@
-import { View, StatusBar } from 'react-native'
-import { router } from 'expo-router'
+import { useCallback } from 'react'
+import { View, StatusBar, Alert } from 'react-native'
+import { router, useFocusEffect } from 'expo-router'
+
+import { useTargetDatabase } from '@/database/useTargetDatabase'
 
 import { HomeHeader } from '@/components/HomeHeader'
 import { Target } from '@/components/Target'
@@ -37,6 +40,24 @@ const targets = [
 ]
 
 export default function Index() {
+  const targetDatabase = useTargetDatabase()
+
+  async function fetchTargets() {
+    try {
+      const response = await targetDatabase.listBySavedValue()
+      console.log(response)
+    } catch (error) {
+      Alert.alert('Erro', 'Não foi possível carregar as metas.')
+      console.log(error)
+    }
+  }
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchTargets()
+    }, []),
+  )
+
   return (
     <View style={{ flex: 1 }}>
       <StatusBar barStyle='light-content' />
