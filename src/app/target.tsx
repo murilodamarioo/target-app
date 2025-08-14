@@ -1,5 +1,5 @@
 import { View, Alert } from 'react-native'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocalSearchParams, router } from 'expo-router'
 
 import { useTargetDatabase } from '@/database/useTargetDatabase'
@@ -25,16 +25,32 @@ export default function Target() {
     setIsProcessing(true)
 
     if (params.id) {
-      // update
+      update()
     } else {
       create()
+    }
+  }
+
+  async function update() {
+    try {
+      await targetDatabase.update({ id: Number(params.id), name, amount })
+      Alert.alert('Sucesso', 'Meta atualizada com sucesso!', [
+        {
+          text: 'OK',
+          onPress: () => router.back()
+        }
+      ])
+    } catch (error) {
+      Alert.alert('Erro', 'Não foi possível atualizar a meta.')
+      console.log(error)
+      setIsProcessing(false)
     }
   }
 
   async function create() {
     try {
       await targetDatabase.create({ name, amount })
-      
+
       Alert.alert('Nova Meta', 'Meta criada com sucesso!', [
         {
           text: 'Ok',
@@ -45,6 +61,23 @@ export default function Target() {
       Alert.alert('Erro', 'Não foi possível criar a meta.')
       console.log(error)
       setIsProcessing(false)
+    }
+  }
+
+  useEffect(() => {
+    if (params.id) {
+      fetchDetails(Number(params.id))
+    }
+  }, [params.id])
+
+  async function fetchDetails(id: number) {
+    try {
+      const response = await targetDatabase.show(id)
+      setName(response.name)
+      setAmount(response.amount)
+    } catch (error) {
+      Alert.alert('Erro', 'Não foi possível de carregar os detalhes da meta.')
+      console.log(error)
     }
   }
 
