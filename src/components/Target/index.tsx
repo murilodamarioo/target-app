@@ -24,7 +24,7 @@ export function Target({ data, ...rest }: Props) {
         </Text>
 
         <Text style={styles.status}>
-          {data.percentage} • R$ {data.current} de R$ {data.target}
+          {data.percentage} • {data.current} de {data.target}
         </Text>
       </View>
 

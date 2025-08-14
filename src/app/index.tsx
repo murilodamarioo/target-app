@@ -10,6 +10,8 @@ import { List } from '@/components/List'
 import { Button } from '@/components/Button'
 import { Loading } from '@/components/Loading'
 
+import { numberToCurrency } from '@/utils/number-to-currency'
+
 const summary = {
   total: 'R$ 2.6880,00',
   input: { label: 'Entradas', value: 'R$ 6.184,00' },
@@ -30,9 +32,9 @@ export default function Index() {
       return response.map((item) => ({
         id: String(item.id),
         name: item.name,
-        current: String(item.current),
+        current: numberToCurrency(item.current),
         percentage: item.percentage.toFixed(0) + '%',
-        target: String(item.amount)
+        target: numberToCurrency(item.amount)
       }))
     } catch (error) {
       Alert.alert('Erro', 'Não foi possível carregar as metas.')
