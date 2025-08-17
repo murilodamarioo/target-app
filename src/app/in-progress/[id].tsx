@@ -42,7 +42,7 @@ export default function InProgress() {
         percentage: response.percentage
       })
     } catch (error) {
-      Alert.alert('Erro', 'Nao foi possivel carregar os detalhes da meta.')
+      Alert.alert('Erro', 'Não foi possível carregar os detalhes da meta.')
       console.log(error)
     }
   }
@@ -72,6 +72,23 @@ export default function InProgress() {
     setIsFetching(false)
   }
 
+  function handleTrsanctionRemove(id: string) {
+    Alert.alert('Remover', 'Deseja remover essa transação?', [
+      { text: 'Nao', style: 'cancel' },
+      { text: 'Sim', onPress: () => transactionRemove(id) }
+    ])
+  }
+
+  async function transactionRemove(id: string) {
+    try {
+      await transactionsDatabase.remove(Number(id))
+      fetchData()
+      Alert.alert('Transação', 'Transação removida com sucesso!')
+    } catch (error) {
+      Alert.alert('Error', 'Não foi possível remover a transação.')
+    }
+  }
+
   useFocusEffect(
     useCallback(() => {
       fetchData()
@@ -96,7 +113,7 @@ export default function InProgress() {
       <List
         title='Transações'
         data={transactions}
-        renderItem={({ item }) => <Transaction data={item} onRemove={() => { }} />}
+        renderItem={({ item }) => <Transaction data={item} onRemove={() => handleTrsanctionRemove(item.id)} />}
         emptyMessage='Nenhuma transação. Toque em uma nova transação guardar seu dinheiro.'
       />
 
